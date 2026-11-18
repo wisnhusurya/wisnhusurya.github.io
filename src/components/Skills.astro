@@ -1,0 +1,24 @@
+---
+import Section from './Section.astro';
+import { getDict, type Lang } from '../i18n/utils';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = getDict(lang).skills;
+---
+<Section id="skills" index="04" label={t.label} title={t.title}>
+  <div class="grid gap-x-10 gap-y-10 sm:grid-cols-2">
+    {t.groups.map((g) => (
+      <div>
+        <h3 class="mb-3 font-medium">{g.name}</h3>
+        <ul class="flex flex-wrap gap-x-2 gap-y-1 text-[16px] leading-loose text-muted">
+          {g.items.map((item, i) => (
+            <li>
+              {item}{i < g.items.length - 1 && <span class="ml-2 text-line" aria-hidden="true">/</span>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</Section>

@@ -1,0 +1,51 @@
+---
+interface Props { label: string }
+const { label } = Astro.props;
+---
+<button
+  type="button"
+  role="switch"
+  aria-checked="false"
+  aria-label={label}
+  title={label}
+  data-theme-switch
+  class="group relative inline-flex h-7 w-12 shrink-0 cursor-pointer items-center rounded-full border border-line bg-surface transition-colors duration-200 hover:border-muted aria-checked:bg-fg aria-checked:border-fg"
+>
+  <span
+    class="absolute left-0.5 flex size-[22px] items-center justify-center rounded-full bg-bg text-fg shadow-sm transition-transform duration-200 ease-out group-aria-checked:translate-x-5"
+  >
+    <!-- sun -->
+    <svg class="size-3.5 group-aria-checked:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+    </svg>
+    <!-- moon -->
+    <svg class="hidden size-3.5 group-aria-checked:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+    </svg>
+  </span>
+</button>
+
+<script>
+  const root = document.documentElement;
+  const switches = document.querySelectorAll<HTMLButtonElement>('[data-theme-switch]');
+  const sync = () => {
+    const dark = root.dataset.theme === 'dark';
+    switches.forEach((s) => s.setAttribute('aria-checked', String(dark)));
+  };
+  sync();
+  switches.forEach((s) =>
+    s.addEventListener('click', () => {
+      const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = next;
+      try { localStorage.setItem('theme', next); } catch {}
+      sync();
+    }),
+  );
+  // Follow OS changes only if the user never picked manually
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+    let saved: string | null = null;
+    try { saved = localStorage.getItem('theme'); } catch {}
+    if (!saved) { root.dataset.theme = e.matches ? 'dark' : 'light'; sync(); }
+  });
+</script>

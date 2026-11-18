@@ -1,0 +1,46 @@
+---
+import Section from './Section.astro';
+import { getDict, type Lang } from '../i18n/utils';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = getDict(lang).work;
+const h = t.headings;
+---
+<Section id="work" index="02" label={t.label} title={t.title}>
+  <ol class="divide-y divide-line border-y border-line">
+    {t.items.map((item, i) => (
+      <li class="py-10 first:pt-8">
+        <div class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+          <h3 class="font-serif text-3xl tracking-tight">
+            <span class="mr-3 font-mono text-sm text-muted">{String(i + 1).padStart(2, '0')}</span>{item.name}
+          </h3>
+          <p class="font-mono text-xs uppercase tracking-wider text-muted">{item.org}</p>
+        </div>
+        <p class="mt-1 text-[15px] text-muted">{item.kind}</p>
+
+        <dl class="mt-7 grid gap-x-8 gap-y-5 text-[16px] sm:grid-cols-[130px_1fr]">
+          <dt class="label pt-1">{h.context}</dt>
+          <dd>{item.context}</dd>
+          <dt class="label pt-1">{h.role}</dt>
+          <dd>{item.role}</dd>
+          <dt class="label pt-1">{h.decisions}</dt>
+          <dd>
+            <ul class="space-y-2">
+              {item.decisions.map((dec) => (
+                <li class="relative pl-5 before:absolute before:left-0 before:text-muted before:content-['–']">{dec}</li>
+              ))}
+            </ul>
+          </dd>
+          <dt class="label pt-1">{h.outcome}</dt>
+          <dd class="font-medium text-accent">
+            {item.outcome}
+            {item.link && (
+              <a href={item.link} target="_blank" rel="noopener" class="link ml-2 text-sm font-normal whitespace-nowrap">{t.visit} ↗</a>
+            )}
+          </dd>
+        </dl>
+      </li>
+    ))}
+  </ol>
+</Section>

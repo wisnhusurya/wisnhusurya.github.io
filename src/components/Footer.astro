@@ -1,0 +1,14 @@
+---
+import { getDict, type Lang } from '../i18n/utils';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = getDict(lang).footer;
+const year = new Date().getFullYear();
+---
+<footer class="border-t border-line">
+  <div class="mx-auto flex max-w-5xl flex-col gap-2 px-5 py-10 text-sm text-muted sm:flex-row sm:justify-between sm:px-8">
+    <p>© {year} Wisnhu Surya Wardhana</p>
+    <p>{t.built}</p>
+  </div>
+</footer>

@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from './Nav.astro';
+import Hero from './Hero.astro';
+import About from './About.astro';
+import Work from './Work.astro';
+import Experience from './Experience.astro';
+import Skills from './Skills.astro';
+import Contact from './Contact.astro';
+import Footer from './Footer.astro';
+import { getDict, type Lang } from '../i18n/utils';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = getDict(lang);
+---
+<Base lang={lang} title={t.meta.title} description={t.meta.description}>
+  <Nav lang={lang} />
+  <main id="main" class="mx-auto max-w-5xl px-5 sm:px-8">
+    <Hero lang={lang} />
+    <About lang={lang} />
+    <Work lang={lang} />
+    <Experience lang={lang} />
+    <Skills lang={lang} />
+    <Contact lang={lang} />
+  </main>
+  <Footer lang={lang} />
+</Base>

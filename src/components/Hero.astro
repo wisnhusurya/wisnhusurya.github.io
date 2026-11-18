@@ -1,0 +1,44 @@
+---
+import { getDict, site, type Lang } from '../i18n/utils';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = getDict(lang);
+const t = d.hero;
+---
+<div class="pt-20 pb-16 sm:pt-28 sm:pb-20">
+  <p class="reveal mb-8 inline-flex items-center gap-2.5 text-sm text-muted">
+    <span class="relative flex size-2">
+      <span class="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-50"></span>
+      <span class="relative inline-flex size-2 rounded-full bg-accent"></span>
+    </span>
+    {t.badge}
+  </p>
+
+  <h1 class="reveal font-serif text-[2.75rem] leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl" style="animation-delay:60ms">
+    {t.headlineA}<br />
+    {t.headlineB}<br />
+    <em class="text-accent">{t.headlineC}</em>
+  </h1>
+
+  <p class="reveal mt-8 max-w-[620px] text-lg text-muted" style="animation-delay:120ms">
+    <span class="text-fg">{t.name}.</span> {t.intro}
+  </p>
+
+  <div class="reveal mt-10 flex flex-wrap items-center gap-x-6 gap-y-4" style="animation-delay:180ms">
+    <a href="#work" class="inline-flex items-center gap-2 rounded-full bg-fg px-6 py-3 text-[15px] font-medium text-bg transition-opacity hover:opacity-85">
+      {t.ctaPrimary} <span aria-hidden="true">↓</span>
+    </a>
+    <a href={site.cv} download="Wisnhu_Surya_Wardhana_CV.pdf" class="link text-[15px]">{t.ctaSecondary}</a>
+  </div>
+
+  <dl class="reveal mt-20 grid grid-cols-2 gap-x-8 gap-y-8 border-t border-line pt-8 lg:grid-cols-4" style="animation-delay:240ms">
+    {d.highlights.map((h) => (
+      <div>
+        <dt class="sr-only">{h.label}</dt>
+        <dd class="font-serif text-3xl leading-none tracking-tight sm:text-4xl">{h.value}</dd>
+        <dd class="mt-2 text-sm leading-snug text-muted">{h.label}</dd>
+      </div>
+    ))}
+  </dl>
+</div>

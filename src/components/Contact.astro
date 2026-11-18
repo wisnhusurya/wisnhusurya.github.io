@@ -1,0 +1,39 @@
+---
+import Section from './Section.astro';
+import { getDict, site, type Lang } from '../i18n/utils';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = getDict(lang).contact;
+const rows = [
+  { label: t.email, value: site.email, href: `mailto:${site.email}` },
+  { label: t.whatsapp, value: '+62 812-1779-4788', href: site.whatsapp, external: true },
+  { label: t.linkedin, value: 'in/wisnhuswardhana', href: site.linkedin, external: true },
+  { label: t.github, value: 'wisnhusurya', href: site.github, external: true },
+];
+---
+<Section id="contact" index="05" label={t.label} title={t.title}>
+  <p class="max-w-[560px] text-lg text-muted">{t.body}</p>
+
+  <ul class="mt-10 divide-y divide-line border-y border-line">
+    {rows.map((r) => (
+      <li>
+        <a
+          href={r.href}
+          {...(r.external ? { target: '_blank', rel: 'noopener' } : {})}
+          class="group flex items-center justify-between gap-4 py-5 transition-colors hover:text-accent"
+        >
+          <span class="label group-hover:text-accent">{r.label}</span>
+          <span class="flex min-w-0 items-center gap-3 text-right">
+            <span class="truncate">{r.value}</span>
+            <span aria-hidden="true" class="transition-transform group-hover:translate-x-1">→</span>
+          </span>
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <a href={site.cv} download="Wisnhu_Surya_Wardhana_CV.pdf" class="mt-10 inline-flex items-center gap-2 rounded-full bg-fg px-6 py-3 text-[15px] font-medium text-bg transition-opacity hover:opacity-85">
+    {t.cv} <span aria-hidden="true">↓</span>
+  </a>
+</Section>
